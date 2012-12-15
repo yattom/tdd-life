@@ -14,6 +14,12 @@ class CellTest(unittest.TestCase):
         cell.live()
         self.assertTrue(cell.is_alive())
 
+    def test_knows_neighbours(self):
+        cell = Cell()
+        another_cell = Cell()
+        cell.neighbours.append(another_cell)
+
+        self.assertTrue(another_cell in cell.neighbours)
 
 class GameOfLifeTest(unittest.TestCase):
     def test_set_initial_pattern(self):

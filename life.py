@@ -25,6 +25,7 @@ class Cell(object):
 
     def __init__(self):
         self.state = Cell.DEAD
+        self.neighbours = []
 
     def is_alive(self):
         return self.state == Cell.ALIVE
