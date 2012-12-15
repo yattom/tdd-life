@@ -2,6 +2,8 @@
 
 import unittest
 
+from life import *
+
 class GameOfLifeTest(unittest.TestCase):
     def test_set_initial_pattern(self):
         initial = '''
