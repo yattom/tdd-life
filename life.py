@@ -18,3 +18,16 @@ class GameOfLife(object):
             if cell.is_alive():
                 alive_cells += 1
         return alive_cells == 3
+
+class Cell(object):
+    ALIVE = True
+    DEAD = False
+
+    def __init__(self):
+        self.state = Cell.DEAD
+
+    def is_alive(self):
+        return self.state == Cell.ALIVE
+
+    def live(self):
+        self.state = Cell.ALIVE
