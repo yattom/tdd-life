@@ -21,5 +21,22 @@ o..
         actual = game.dump()
         self.assertEqual(actual, expected)
 
+    def test_born(self):
+        initial = '''
+oo.
+o..
+...
+'''
+        game = GameOfLife(pattern=initial)
+        game.tick()
+
+        expected = '''
+oo.
+oo.
+...
+'''
+        actual = game.dump()
+        self.assertEqual(actual, expected)
+
 if __name__=='__main__':
     unittest.main()
