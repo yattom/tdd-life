@@ -30,7 +30,13 @@ o..
         game = GameOfLife(pattern=initial)
         game.tick()
 
-        self.assertTrue(game.isAlive(1, 1))
+        expected = '''
+oo.
+oo.
+...
+'''
+        actual = game.dump()
+        self.assertEqual(actual, expected)
 
 if __name__=='__main__':
     unittest.main()
