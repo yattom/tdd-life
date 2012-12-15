@@ -32,3 +32,9 @@ class Cell(object):
 
     def live(self):
         self.state = Cell.ALIVE
+
+    def born(self):
+        self.next_state = Cell.ALIVE
+
+    def tick(self):
+        self.state = self.next_state
