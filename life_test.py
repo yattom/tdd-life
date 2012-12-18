@@ -109,5 +109,22 @@ o..
         self.assertEqual(cells[(1, 2)].is_alive(), False)
         self.assertEqual(cells[(2, 2)].is_alive(), False)
 
+    def test_connect_neighbours(self):
+        cells = {
+            (0, 0): Cell(), (1, 0): Cell(), (2, 0): Cell(),
+            (0, 1): Cell(), (1, 1): Cell(), (2, 1): Cell(),
+            (0, 2): Cell(), (1, 2): Cell(), (2, 2): Cell(),
+        }
+        GameOfLife.connect_neighbours(cells)
+        self.assertEqual(sorted(cells[(0, 0)].neighbours),
+            sorted([cells[(1, 0)], cells[(0, 1)], cells[(1, 1)]]))
+
+        self.assertEqual(sorted(cells[(1, 1)].neighbours),
+            sorted([
+                cells[(0, 0)], cells[(1, 0)], cells[(2, 0)],
+                cells[(0, 1)],                cells[(2, 1)],
+                cells[(0, 2)], cells[(1, 2)], cells[(2, 2)],
+            ]))
+
 if __name__=='__main__':
     unittest.main()

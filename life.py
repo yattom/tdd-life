@@ -22,6 +22,15 @@ class GameOfLife(object):
                 cells[(x, y)] = Cell(state)
         return cells
 
+    @staticmethod
+    def connect_neighbours(cells):
+        for x, y in cells.keys():
+            cell = cells[(x, y)]
+            for dx, dy in [(dx, dy) for dx in range(-1, 2) for dy in range(-1, 2)]:
+                if dx == dy == 0: continue
+                if (x + dx, y + dy) in cells:
+                    cell.neighbours.append(cells[(x + dx, y + dy)])
+
 
 class Cell(object):
     ALIVE = True
