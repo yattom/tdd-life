@@ -63,5 +63,24 @@ oo.
         actual = game.dump()
         self.assertEqual(actual, expected)
 
+    def test_will_born_true(self):
+        game = GameOfLife(pattern='')
+
+        cells = [Cell() for i in range(8)]
+        cells[0].live()
+        cells[1].live()
+        cells[2].live()
+        self.assertTrue(game.will_born(cells))
+
+    def test_will_born_false(self):
+        game = GameOfLife(pattern='')
+
+        cells = [Cell() for i in range(8)]
+        cells[0].live()
+        cells[1].live()
+        cells[2].live()
+        cells[3].live()
+        self.assertFalse(game.will_born(cells))
+
 if __name__=='__main__':
     unittest.main()
