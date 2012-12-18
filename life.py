@@ -2,12 +2,11 @@
 
 class GameOfLife(object):
     def __init__(self, pattern=''):
-        self.pattern = pattern
         self.cells = GameOfLife.build_cells(pattern)
         GameOfLife.connect_neighbours(self.cells)
 
     def dump(self):
-        return self.pattern
+        return GameOfLife.dump_cells(self.cells)
 
     def tick(self):
         self.prepare_next_generation(self.cells.values())
@@ -40,13 +39,23 @@ class GameOfLife(object):
             if (x + dx, y + dy) not in cells: continue
             cell.neighbours.append(cells[(x + dx, y + dy)])
 
+    @staticmethod
+    def dump_cells(cells):
+        grid_max = max(cells.keys())
+        dump = [[''] * (grid_max[0] + 1) for i in range(grid_max[1] + 1)]
+        for x, y in cells.keys():
+            if cells[(x, y)].is_alive(): c = 'o'
+            else: c = '.'
+            dump[y][x] = c
+        return '\n' + '\n'.join([''.join(line) for line in dump]) + '\n'
+
+
 class Cell(object):
     ALIVE = True
     DEAD = False
 
     def __init__(self, state=DEAD):
-        self.state = state
-        self.next_state = Cell.DEAD
+        self.next_state = self.state = state
         self.neighbours = []
 
     def is_alive(self):

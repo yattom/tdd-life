@@ -126,5 +126,22 @@ o..
                 cells[(0, 2)], cells[(1, 2)], cells[(2, 2)],
             ]))
 
+    def test_dump_cells(self):
+        cells = {
+            (0, 0): Cell(), (1, 0): Cell(), (2, 0): Cell(),
+            (0, 1): Cell(), (1, 1): Cell(), (2, 1): Cell(),
+            (0, 2): Cell(), (1, 2): Cell(), (2, 2): Cell(),
+        }
+        cells[(0, 0)].live()
+        cells[(0, 2)].live()
+        cells[(2, 1)].live()
+        expected = '''
+o..
+..o
+o..
+'''
+        actual = GameOfLife.dump_cells(cells)
+        self.assertEqual(actual, expected)
+
 if __name__=='__main__':
     unittest.main()
