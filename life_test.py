@@ -29,6 +29,23 @@ class CellTest(unittest.TestCase):
         cell.tick()
         self.assertTrue(cell.is_alive())
 
+    def test_will_born_true(self):
+        cell = Cell()
+        cell.neighbours = [Cell() for i in range(8)]
+        cell.neighbours[0].live()
+        cell.neighbours[1].live()
+        cell.neighbours[2].live()
+        self.assertTrue(cell.will_born())
+
+    def test_will_born_false(self):
+        cell = Cell()
+        cell.neighbours = [Cell() for i in range(8)]
+        cell.neighbours[0].live()
+        cell.neighbours[1].live()
+        cell.neighbours[2].live()
+        cell.neighbours[3].live()
+        self.assertFalse(cell.will_born())
+
 class GameOfLifeTest(unittest.TestCase):
     def test_set_initial_pattern(self):
         initial = '''
@@ -62,25 +79,6 @@ oo.
 '''
         actual = game.dump()
         self.assertEqual(actual, expected)
-
-    def test_will_born_true(self):
-        game = GameOfLife(pattern='')
-
-        cells = [Cell() for i in range(8)]
-        cells[0].live()
-        cells[1].live()
-        cells[2].live()
-        self.assertTrue(game.will_born(cells))
-
-    def test_will_born_false(self):
-        game = GameOfLife(pattern='')
-
-        cells = [Cell() for i in range(8)]
-        cells[0].live()
-        cells[1].live()
-        cells[2].live()
-        cells[3].live()
-        self.assertFalse(game.will_born(cells))
 
 if __name__=='__main__':
     unittest.main()

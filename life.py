@@ -12,13 +12,6 @@ class GameOfLife(object):
             if self.will_born(cell.neighbours):
                 cell.born()
 
-    def will_born(self, neighbours):
-        alive_cells = 0
-        for cell in neighbours:
-            if cell.is_alive():
-                alive_cells += 1
-        return alive_cells == 3
-
 class Cell(object):
     ALIVE = True
     DEAD = False
@@ -38,3 +31,11 @@ class Cell(object):
 
     def tick(self):
         self.state = self.next_state
+
+    def will_born(self):
+        alive_cells = 0
+        for cell in self.neighbours:
+            if cell.is_alive():
+                alive_cells += 1
+        return alive_cells == 3
+
