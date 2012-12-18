@@ -9,7 +9,7 @@ class GameOfLife(object):
 
     def prepare_next_generation(self, cells):
         for cell in cells:
-            if self.will_born(cell.neighbours):
+            if cell.will_born():
                 cell.born()
 
 class Cell(object):

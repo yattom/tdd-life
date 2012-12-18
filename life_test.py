@@ -80,5 +80,17 @@ oo.
         actual = game.dump()
         self.assertEqual(actual, expected)
 
+    def test_prepare_next_generation(self):
+        game = GameOfLife(pattern=None)
+        cell = Cell()
+        cell.neighbours = [Cell() for i in range(8)]
+        cell.neighbours[0].live()
+        cell.neighbours[1].live()
+        cell.neighbours[2].live()
+        game.prepare_next_generation([cell])
+
+        cell.tick()
+        self.assertTrue(cell.is_alive())
+
 if __name__=='__main__':
     unittest.main()
