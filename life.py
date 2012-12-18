@@ -12,12 +12,23 @@ class GameOfLife(object):
             if cell.will_born():
                 cell.born()
 
+    @staticmethod
+    def build_cells(pattern):
+        cells = {}
+        for y, line in enumerate(pattern.strip().split("\n")):
+            for x, c in enumerate(line.strip()):
+                if c == 'o':   state = Cell.ALIVE
+                elif c == '.': state = Cell.DEAD
+                cells[(x, y)] = Cell(state)
+        return cells
+
+
 class Cell(object):
     ALIVE = True
     DEAD = False
 
-    def __init__(self):
-        self.state = Cell.DEAD
+    def __init__(self, state=DEAD):
+        self.state = state
         self.neighbours = []
 
     def is_alive(self):

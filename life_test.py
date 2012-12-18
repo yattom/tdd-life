@@ -92,5 +92,22 @@ oo.
         cell.tick()
         self.assertTrue(cell.is_alive())
 
+    def test_build_cells(self):
+        initial = '''
+oo.
+o..
+...
+'''
+        cells = GameOfLife.build_cells(initial)
+        self.assertEqual(cells[(0, 0)].is_alive(), True)
+        self.assertEqual(cells[(1, 0)].is_alive(), True)
+        self.assertEqual(cells[(2, 0)].is_alive(), False)
+        self.assertEqual(cells[(0, 1)].is_alive(), True)
+        self.assertEqual(cells[(1, 1)].is_alive(), False)
+        self.assertEqual(cells[(2, 1)].is_alive(), False)
+        self.assertEqual(cells[(0, 2)].is_alive(), False)
+        self.assertEqual(cells[(1, 2)].is_alive(), False)
+        self.assertEqual(cells[(2, 2)].is_alive(), False)
+
 if __name__=='__main__':
     unittest.main()
