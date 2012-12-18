@@ -1,11 +1,17 @@
 # coding: utf8
 
 class GameOfLife(object):
-    def __init__(self, pattern):
+    def __init__(self, pattern=''):
         self.pattern = pattern
+        self.cells = GameOfLife.build_cells(pattern)
+        GameOfLife.connect_neighbours(self.cells)
 
     def dump(self):
         return self.pattern
+
+    def tick(self):
+        self.prepare_next_generation(self.cells.values())
+        for cell in self.cells.values(): cell.tick()
 
     def prepare_next_generation(self, cells):
         for cell in cells:
@@ -40,6 +46,7 @@ class Cell(object):
 
     def __init__(self, state=DEAD):
         self.state = state
+        self.next_state = Cell.DEAD
         self.neighbours = []
 
     def is_alive(self):

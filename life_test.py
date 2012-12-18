@@ -81,7 +81,7 @@ oo.
         self.assertEqual(actual, expected)
 
     def test_prepare_next_generation(self):
-        game = GameOfLife(pattern=None)
+        game = GameOfLife()
         cell = Cell()
         cell.neighbours = [Cell() for i in range(8)]
         cell.neighbours[0].live()
