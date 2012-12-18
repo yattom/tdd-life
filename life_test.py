@@ -82,15 +82,14 @@ oo.
 
     def test_prepare_next_generation(self):
         game = GameOfLife(pattern=None)
-        cell = Cell()
-        cell.neighbours = [Cell() for i in range(8)]
-        cell.neighbours[0].live()
-        cell.neighbours[1].live()
-        cell.neighbours[2].live()
-        game.prepare_next_generation([cell])
+        class CellStub(object):
+            born_is_called = False
+            def will_born(self): return True
+            def born(self): self.born_is_called = True
 
-        cell.tick()
-        self.assertTrue(cell.is_alive())
+        cells = [CellStub()]
+        game.prepare_next_generation(cells)
+        self.assertTrue(cells[0].born_is_called)
 
 if __name__=='__main__':
     unittest.main()
