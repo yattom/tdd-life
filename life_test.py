@@ -13,39 +13,36 @@ def pattern(pattern_with_spaces):
     return '\n'.join([line.strip() for line in pattern_with_spaces.split('\n')])
 
 class CellTest(unittest.TestCase):
+    def setUp(self):
+        self.cell = Cell()
+
     def test_self_state_initial(self):
-        cell = Cell()
-        self.assertFalse(cell.is_alive())
+        self.assertFalse(self.cell.is_alive())
 
     def test_self_state_alive(self):
-        cell = Cell()
-        cell.live()
-        self.assertTrue(cell.is_alive())
+        self.cell.live()
+        self.assertTrue(self.cell.is_alive())
 
     def test_knows_neighbours(self):
-        cell = Cell()
         another_cell = Cell()
-        cell.neighbours.append(another_cell)
+        self.cell.neighbours.append(another_cell)
 
-        self.assertTrue(another_cell in cell.neighbours)
+        self.assertTrue(another_cell in self.cell.neighbours)
 
     def test_next_generation_when_born(self):
-        cell = Cell()
-        cell.born()
+        self.cell.born()
 
-        self.assertFalse(cell.is_alive())
-        cell.tick()
-        self.assertTrue(cell.is_alive())
+        self.assertFalse(self.cell.is_alive())
+        self.cell.tick()
+        self.assertTrue(self.cell.is_alive())
 
     def test_will_born_true(self):
-        cell = Cell()
-        fill_neighbours(cell, alive=3)
-        self.assertTrue(cell.will_born())
+        fill_neighbours(self.cell, alive=3)
+        self.assertTrue(self.cell.will_born())
 
     def test_will_born_false(self):
-        cell = Cell()
-        fill_neighbours(cell, alive=4)
-        self.assertFalse(cell.will_born())
+        fill_neighbours(self.cell, alive=4)
+        self.assertFalse(self.cell.will_born())
 
 class GameOfLifeTest(unittest.TestCase):
     def test_set_initial_pattern(self):
