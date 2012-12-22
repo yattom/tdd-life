@@ -120,14 +120,12 @@ class GameOfLifeTest(unittest.TestCase):
             ]))
 
     def test_dump_cells(self):
-        cells = {
-            (0, 0): Cell(), (1, 0): Cell(), (2, 0): Cell(),
-            (0, 1): Cell(), (1, 1): Cell(), (2, 1): Cell(),
-            (0, 2): Cell(), (1, 2): Cell(), (2, 2): Cell(),
+        cell_states = {
+            (0, 0): True,  (1, 0): False, (2, 0): False,
+            (0, 1): False, (1, 1): False, (2, 1): True,
+            (0, 2): True,  (1, 2): False, (2, 2): False,
         }
-        cells[(0, 0)].live()
-        cells[(0, 2)].live()
-        cells[(2, 1)].live()
+        cells = { pos:Cell(state=cell_states[pos]) for pos in cell_states.keys() }
         expected = '''
             o..
             ..o
