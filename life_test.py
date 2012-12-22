@@ -4,6 +4,11 @@ import unittest
 
 from life import *
 
+def fill_neighbours(cell, alive):
+    cell.neighbours = [Cell() for i in range(8)]
+    for i in range(alive):
+        cell.neighbours[i].live()
+
 class CellTest(unittest.TestCase):
     def test_self_state_initial(self):
         cell = Cell()
@@ -31,19 +36,12 @@ class CellTest(unittest.TestCase):
 
     def test_will_born_true(self):
         cell = Cell()
-        cell.neighbours = [Cell() for i in range(8)]
-        cell.neighbours[0].live()
-        cell.neighbours[1].live()
-        cell.neighbours[2].live()
+        fill_neighbours(cell, alive=3)
         self.assertTrue(cell.will_born())
 
     def test_will_born_false(self):
         cell = Cell()
-        cell.neighbours = [Cell() for i in range(8)]
-        cell.neighbours[0].live()
-        cell.neighbours[1].live()
-        cell.neighbours[2].live()
-        cell.neighbours[3].live()
+        fill_neighbours(cell, alive=4)
         self.assertFalse(cell.will_born())
 
 class GameOfLifeTest(unittest.TestCase):
@@ -83,10 +81,7 @@ oo.
     def test_prepare_next_generation(self):
         game = GameOfLife()
         cell = Cell()
-        cell.neighbours = [Cell() for i in range(8)]
-        cell.neighbours[0].live()
-        cell.neighbours[1].live()
-        cell.neighbours[2].live()
+        fill_neighbours(cell, alive=3)
         game.prepare_next_generation([cell])
 
         cell.tick()
