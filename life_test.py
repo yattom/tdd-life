@@ -9,6 +9,9 @@ def fill_neighbours(cell, alive):
     for i in range(alive):
         cell.neighbours[i].live()
 
+def pattern(pattern_with_spaces):
+    return '\n'.join([line.strip() for line in pattern_with_spaces.split('\n')])
+
 class CellTest(unittest.TestCase):
     def test_self_state_initial(self):
         cell = Cell()
@@ -47,36 +50,36 @@ class CellTest(unittest.TestCase):
 class GameOfLifeTest(unittest.TestCase):
     def test_set_initial_pattern(self):
         initial = '''
-oo.
-o..
-...
+            oo.
+            o..
+            ...
 '''
-        game = GameOfLife(pattern=initial)
+        game = GameOfLife(pattern=pattern(initial))
 
         expected = '''
-oo.
-o..
-...
+            oo.
+            o..
+            ...
 '''
         actual = game.dump()
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual, pattern(expected))
 
     def test_born(self):
         initial = '''
-oo.
-o..
-...
+            oo.
+            o..
+            ...
 '''
-        game = GameOfLife(pattern=initial)
+        game = GameOfLife(pattern=pattern(initial))
         game.tick()
 
         expected = '''
-oo.
-oo.
-...
+            oo.
+            oo.
+            ...
 '''
         actual = game.dump()
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual, pattern(expected))
 
     def test_prepare_next_generation(self):
         game = GameOfLife()
@@ -89,11 +92,11 @@ oo.
 
     def test_build_cells(self):
         initial = '''
-oo.
-o..
-...
+            oo.
+            o..
+            ...
 '''
-        cells = GameOfLife.build_cells(initial)
+        cells = GameOfLife.build_cells(pattern(initial))
         expected = {
             (0, 0): True,  (1, 0): True,  (2, 0): False,
             (0, 1): True,  (1, 1): False, (2, 1): False,
@@ -129,12 +132,12 @@ o..
         cells[(0, 2)].live()
         cells[(2, 1)].live()
         expected = '''
-o..
-..o
-o..
+            o..
+            ..o
+            o..
 '''
         actual = GameOfLife.dump_cells(cells)
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual, pattern(expected))
 
 if __name__=='__main__':
     unittest.main()
