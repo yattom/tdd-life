@@ -94,15 +94,13 @@ o..
 ...
 '''
         cells = GameOfLife.build_cells(initial)
-        self.assertEqual(cells[(0, 0)].is_alive(), True)
-        self.assertEqual(cells[(1, 0)].is_alive(), True)
-        self.assertEqual(cells[(2, 0)].is_alive(), False)
-        self.assertEqual(cells[(0, 1)].is_alive(), True)
-        self.assertEqual(cells[(1, 1)].is_alive(), False)
-        self.assertEqual(cells[(2, 1)].is_alive(), False)
-        self.assertEqual(cells[(0, 2)].is_alive(), False)
-        self.assertEqual(cells[(1, 2)].is_alive(), False)
-        self.assertEqual(cells[(2, 2)].is_alive(), False)
+        expected = {
+            (0, 0): True,  (1, 0): True,  (2, 0): False,
+            (0, 1): True,  (1, 1): False, (2, 1): False,
+            (0, 2): False, (1, 2): False, (2, 2): False,
+        }
+        actual = { pos:cells[pos].is_alive() for pos in cells.keys() }
+        self.assertEqual(actual, expected)
 
     def test_connect_neighbours(self):
         cells = {
