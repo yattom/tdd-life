@@ -134,5 +134,22 @@ class GameOfLifeTest(unittest.TestCase):
         actual = GameOfLife.dump_cells(cells)
         self.assertEqual(actual, pattern(expected))
 
+
+class GameBuilderTest(unittest.TestCase):
+    def test_build_cells(self):
+        initial = '''
+            oo.
+            o..
+            ...
+'''
+        game = GameBuilder.build_with(initial)
+        expected = {
+            (0, 0): True,  (1, 0): True,  (2, 0): False,
+            (0, 1): True,  (1, 1): False, (2, 1): False,
+            (0, 2): False, (1, 2): False, (2, 2): False,
+        }
+        actual = { pos:game.cells[pos].is_alive() for pos in game.cells.keys() }
+        self.assertEqual(actual, expected)
+
 if __name__=='__main__':
     unittest.main()

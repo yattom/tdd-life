@@ -77,3 +77,24 @@ class Cell(object):
                 alive_cells += 1
         return alive_cells == 3
 
+class GameBuilder(object):
+    @staticmethod
+    def build_with(pattern):
+        cells = GameBuilder.build_cells(pattern)
+
+        GameOfLife.connect_neighbours(cells)
+        game = GameOfLife()
+        game.cells = cells
+
+        return game
+
+    @staticmethod
+    def build_cells(pattern):
+        cells = {}
+        for y, line in enumerate(pattern.strip().split("\n")):
+            for x, c in enumerate(line.strip()):
+                if c == 'o':   state = Cell.ALIVE
+                elif c == '.': state = Cell.DEAD
+                cells[(x, y)] = Cell(state)
+        return cells
+
