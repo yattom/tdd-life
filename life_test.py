@@ -51,7 +51,7 @@ class GameOfLifeTest(unittest.TestCase):
             o..
             ...
 '''
-        game = GameOfLife(pattern=pattern(initial))
+        game = GameBuilder.build_with(pattern=pattern(initial))
 
         expected = '''
             oo.
@@ -67,7 +67,7 @@ class GameOfLifeTest(unittest.TestCase):
             o..
             ...
 '''
-        game = GameOfLife(pattern=pattern(initial))
+        game = GameBuilder.build_with(pattern=pattern(initial))
         game.tick()
 
         expected = '''
@@ -79,45 +79,13 @@ class GameOfLifeTest(unittest.TestCase):
         self.assertEqual(actual, pattern(expected))
 
     def test_prepare_next_generation(self):
-        game = GameOfLife()
+        game = GameOfLife(cells={})
         cell = Cell()
         fill_neighbours(cell, alive=3)
         game.prepare_next_generation([cell])
 
         cell.tick()
         self.assertTrue(cell.is_alive())
-
-    def test_build_cells(self):
-        initial = '''
-            oo.
-            o..
-            ...
-'''
-        cells = GameOfLife.build_cells(pattern(initial))
-        expected = {
-            (0, 0): True,  (1, 0): True,  (2, 0): False,
-            (0, 1): True,  (1, 1): False, (2, 1): False,
-            (0, 2): False, (1, 2): False, (2, 2): False,
-        }
-        actual = { pos:cells[pos].is_alive() for pos in cells.keys() }
-        self.assertEqual(actual, expected)
-
-    def test_connect_neighbours(self):
-        cells = {
-            (0, 0): Cell(), (1, 0): Cell(), (2, 0): Cell(),
-            (0, 1): Cell(), (1, 1): Cell(), (2, 1): Cell(),
-            (0, 2): Cell(), (1, 2): Cell(), (2, 2): Cell(),
-        }
-        GameOfLife.connect_neighbours(cells)
-        self.assertEqual(sorted(cells[(0, 0)].neighbours),
-            sorted([cells[(1, 0)], cells[(0, 1)], cells[(1, 1)]]))
-
-        self.assertEqual(sorted(cells[(1, 1)].neighbours),
-            sorted([
-                cells[(0, 0)], cells[(1, 0)], cells[(2, 0)],
-                cells[(0, 1)],                cells[(2, 1)],
-                cells[(0, 2)], cells[(1, 2)], cells[(2, 2)],
-            ]))
 
     def test_dump_cells(self):
         cell_states = {
@@ -150,6 +118,38 @@ class GameBuilderTest(unittest.TestCase):
         }
         actual = { pos:game.cells[pos].is_alive() for pos in game.cells.keys() }
         self.assertEqual(actual, expected)
+
+    def test_build_cells(self):
+        initial = '''
+            oo.
+            o..
+            ...
+'''
+        cells = GameBuilder.build_cells(pattern(initial))
+        expected = {
+            (0, 0): True,  (1, 0): True,  (2, 0): False,
+            (0, 1): True,  (1, 1): False, (2, 1): False,
+            (0, 2): False, (1, 2): False, (2, 2): False,
+        }
+        actual = { pos:cells[pos].is_alive() for pos in cells.keys() }
+        self.assertEqual(actual, expected)
+
+    def test_connect_neighbours(self):
+        cells = {
+            (0, 0): Cell(), (1, 0): Cell(), (2, 0): Cell(),
+            (0, 1): Cell(), (1, 1): Cell(), (2, 1): Cell(),
+            (0, 2): Cell(), (1, 2): Cell(), (2, 2): Cell(),
+        }
+        GameBuilder.connect_neighbours(cells)
+        self.assertEqual(sorted(cells[(0, 0)].neighbours),
+            sorted([cells[(1, 0)], cells[(0, 1)], cells[(1, 1)]]))
+
+        self.assertEqual(sorted(cells[(1, 1)].neighbours),
+            sorted([
+                cells[(0, 0)], cells[(1, 0)], cells[(2, 0)],
+                cells[(0, 1)],                cells[(2, 1)],
+                cells[(0, 2)], cells[(1, 2)], cells[(2, 2)],
+            ]))
 
 if __name__=='__main__':
     unittest.main()
