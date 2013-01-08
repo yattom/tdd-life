@@ -4,9 +4,6 @@ class GameOfLife(object):
     def __init__(self, cells):
         self.cells = cells
 
-    def dump(self):
-        return GameOfLife.dump_cells(self.cells)
-
     def tick(self):
         self.prepare_next_generation(self.cells.values())
         for cell in self.cells.values(): cell.tick()
@@ -15,16 +12,6 @@ class GameOfLife(object):
         for cell in cells:
             if cell.will_born():
                 cell.born()
-
-    @staticmethod
-    def dump_cells(cells):
-        grid_max = max(cells.keys())
-        dump = [[''] * (grid_max[0] + 1) for i in range(grid_max[1] + 1)]
-        for x, y in cells.keys():
-            if cells[(x, y)].is_alive(): c = 'o'
-            else: c = '.'
-            dump[y][x] = c
-        return '\n' + '\n'.join([''.join(line) for line in dump]) + '\n'
 
 
 class Cell(object):
@@ -83,4 +70,16 @@ class GameBuilder(object):
         for dx, dy in GameBuilder.NEIGHBOUR_POSITIONS:
             if (x + dx, y + dy) not in cells: continue
             cell.neighbours.append(cells[(x + dx, y + dy)])
+
+
+class GameDumper(object):
+    @staticmethod
+    def dump(game):
+        grid_max = max(game.cells.keys())
+        dump = [[''] * (grid_max[0] + 1) for i in range(grid_max[1] + 1)]
+        for x, y in game.cells.keys():
+            if game.cells[(x, y)].is_alive(): c = 'o'
+            else: c = '.'
+            dump[y][x] = c
+        return '\n' + '\n'.join([''.join(line) for line in dump]) + '\n'
 

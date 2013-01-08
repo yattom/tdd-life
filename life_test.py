@@ -59,7 +59,7 @@ class GameOfLifeTest(unittest.TestCase):
             oo.
             ...
 '''
-        actual = game.dump()
+        actual = GameDumper.dump(game)
         self.assertEqual(actual, pattern(expected))
 
     def test_prepare_next_generation(self):
