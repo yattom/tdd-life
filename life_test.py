@@ -45,22 +45,24 @@ class CellTest(unittest.TestCase):
         self.assertFalse(self.cell.will_born())
 
 class GameOfLifeTest(unittest.TestCase):
+    def assert_next_generation(self, current, expected_next):
+        game = GameBuilder.build_with(pattern=pattern(current))
+        game.tick()
+        actual = GameDumper.dump(game)
+        self.assertEqual(actual, pattern(expected_next), 'next generation differs\nexpected:\n%s\nactual:\n%s'%(pattern(expected_next), actual))
+
     def test_born(self):
         initial = '''
             oo.
             o..
             ...
 '''
-        game = GameBuilder.build_with(pattern=pattern(initial))
-        game.tick()
-
         expected = '''
             oo.
             oo.
             ...
 '''
-        actual = GameDumper.dump(game)
-        self.assertEqual(actual, pattern(expected))
+        self.assert_next_generation(initial, expected)
 
     def test_prepare_next_generation(self):
         game = GameOfLife(cells={})
