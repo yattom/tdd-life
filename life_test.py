@@ -71,20 +71,6 @@ class GameOfLifeTest(unittest.TestCase):
         cell.tick()
         self.assertTrue(cell.is_alive())
 
-    def test_dump_cells(self):
-        cell_states = {
-            (0, 0): True,  (1, 0): False, (2, 0): False,
-            (0, 1): False, (1, 1): False, (2, 1): True,
-            (0, 2): True,  (1, 2): False, (2, 2): False,
-        }
-        cells = { pos:Cell(state=cell_states[pos]) for pos in cell_states.keys() }
-        expected = '''
-            o..
-            ..o
-            o..
-'''
-        actual = GameOfLife.dump_cells(cells)
-        self.assertEqual(actual, pattern(expected))
 
 
 class GameBuilderTest(unittest.TestCase):
@@ -137,6 +123,24 @@ class GameBuilderTest(unittest.TestCase):
                 cells[(0, 1)],                cells[(2, 1)],
                 cells[(0, 2)], cells[(1, 2)], cells[(2, 2)],
             ]))
+
+class GameDumperTest(unittest.TestCase):
+    def test_dump(self):
+        cell_states = {
+            (0, 0): True,  (1, 0): False, (2, 0): False,
+            (0, 1): False, (1, 1): False, (2, 1): True,
+            (0, 2): True,  (1, 2): False, (2, 2): False,
+        }
+        cells = { pos:Cell(state=cell_states[pos]) for pos in cell_states.keys() }
+        game = GameOfLife(cells=cells)
+        expected = '''
+            o..
+            ..o
+            o..
+'''
+        actual = GameDumper.dump(game)
+        self.assertEqual(actual, pattern(expected))
+
 
 if __name__=='__main__':
     unittest.main()
