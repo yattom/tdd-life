@@ -45,22 +45,6 @@ class CellTest(unittest.TestCase):
         self.assertFalse(self.cell.will_born())
 
 class GameOfLifeTest(unittest.TestCase):
-    def test_set_initial_pattern(self):
-        initial = '''
-            oo.
-            o..
-            ...
-'''
-        game = GameBuilder.build_with(pattern=pattern(initial))
-
-        expected = '''
-            oo.
-            o..
-            ...
-'''
-        actual = game.dump()
-        self.assertEqual(actual, pattern(expected))
-
     def test_born(self):
         initial = '''
             oo.
@@ -142,7 +126,10 @@ class GameBuilderTest(unittest.TestCase):
         }
         GameBuilder.connect_neighbours(cells)
         self.assertEqual(sorted(cells[(0, 0)].neighbours),
-            sorted([cells[(1, 0)], cells[(0, 1)], cells[(1, 1)]]))
+            sorted([
+                               cells[(1, 0)],
+                cells[(0, 1)], cells[(1, 1)]
+            ]))
 
         self.assertEqual(sorted(cells[(1, 1)].neighbours),
             sorted([
